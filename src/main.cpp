@@ -244,6 +244,7 @@ void ez_template_extras() {
  */
  
 bool t = false;
+bool c = false;
 
 void opcontrol() {
   // This is preference to what you like to drive on
@@ -273,21 +274,34 @@ void opcontrol() {
     }
     if(t)
     {
-      toggler.move(60); 
+      toggler.move(90); 
     }
     else
     {
       toggler.move(0); 
     }
 
-    if (master.get_digital(DIGITAL_L1))
+    if(master.get_digital_new_press(DIGITAL_L1))
     {
-      cascade1.move(127);
-      cascade2.move(127);
+      c = !c;
     }
-    else if (master.get_digital(DIGITAL_L2))
+    if(c)
+    {
+      claw.set(true); 
+    }
+    else
+    {
+      claw.set(false); 
+    }
+
+    if (master.get_digital(DIGITAL_R1) )
     {
       cascade1.move(-127);
+      cascade2.move(127);
+    }
+    else if (master.get_digital(DIGITAL_R2))
+    {
+      cascade1.move(127);
       cascade2.move(-127);
     }
     else
@@ -296,13 +310,5 @@ void opcontrol() {
       cascade2.move(0);
     }
 
-    if (master.get_digital(DIGITAL_R1))
-    {
-        claw.set(true);
-    }
-    else
-    {
-        claw.set(false);
-    }
   } 
 }
