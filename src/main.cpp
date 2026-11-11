@@ -8,8 +8,8 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-12, -13},     // Left Chassis Ports (negative port will reverse it!)
-    {19, 20},  // Right Chassis Ports (negative port will reverse it!)
+    {-19, -20},     // Left Chassis Ports (negative port will reverse it!)
+    {12, 13},  // Right Chassis Ports (negative port will reverse it!)
 
     16,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -20,8 +20,8 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.0` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(14, 2.0, 4.0);  // This tracking wheel is perpendicular to the drive wheels
-ez::tracking_wheel vert_tracker(12, 2.0, 4.0);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel horiz_tracker(-14, 2.0, 4.0);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel vert_tracker(15, 2.0, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -55,7 +55,7 @@ void initialize() {
   default_constants();
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
-  // chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);  // If using tank, only the left side is used.
+  chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_RIGHT, pros::E_CONTROLLER_DIGITAL_LEFT);  // If using tank, only the left side is used.
   // chassis.opcontrol_curve_buttons_right_set(pros::E_CONTROLLER_DIGITAL_Y, pros::E_CONTROLLER_DIGITAL_A);
 
   // Autonomous Selector using LLEMU
@@ -267,13 +267,13 @@ void opcontrol() {
   
     // Control buttons for our bot
     
-    if(master.get_digital_new_press(DIGITAL_R2))
+    if(master.get_digital_new_press(DIGITAL_X))
     {
       t = !t;
     }
     if(t)
     {
-      toggler.move(45); 
+      toggler.move(60); 
     }
     else
     {
@@ -282,12 +282,12 @@ void opcontrol() {
 
     if (master.get_digital(DIGITAL_L1))
     {
-      cascade1.move(-127);
+      cascade1.move(127);
       cascade2.move(127);
     }
     else if (master.get_digital(DIGITAL_L2))
     {
-      cascade1.move(127);
+      cascade1.move(-127);
       cascade2.move(-127);
     }
     else
