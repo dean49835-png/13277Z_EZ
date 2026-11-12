@@ -20,8 +20,8 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.0` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(-14, 2.0, 4.0);  // This tracking wheel is perpendicular to the drive wheels
-ez::tracking_wheel vert_tracker(15, 2.0, 4.0);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel horiz_tracker(-14, 2.0, -4.1);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel vert_tracker(15, 2.0, 0.04);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -274,7 +274,7 @@ void opcontrol() {
     }
     if(t)
     {
-      toggler.move(90); 
+      toggler.move(105); 
     }
     else
     {
@@ -297,17 +297,22 @@ void opcontrol() {
     if (master.get_digital(DIGITAL_R1) )
     {
       cascade1.move(-127);
+
       cascade2.move(127);
+      cascade3.move(-127);
     }
     else if (master.get_digital(DIGITAL_R2))
     {
-      cascade1.move(127);
-      cascade2.move(-127);
+      cascade1.move(90);
+
+      cascade2.move(-90);
+      cascade3.move(90);
     }
     else
     {
       cascade1.move(0);
       cascade2.move(0);
+      cascade3.move(0);
     }
 
   } 
