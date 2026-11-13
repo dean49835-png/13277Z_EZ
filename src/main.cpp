@@ -20,8 +20,8 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.0` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(-14, 2.0, -4.1);  // This tracking wheel is perpendicular to the drive wheels
-ez::tracking_wheel vert_tracker(15, 2.0, 0.04);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel horiz_tracker(-14, 2.0, -0.81);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel vert_tracker(15, 2.0, 0.01);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -208,7 +208,7 @@ void ez_template_extras() {
     //  When enabled:
     //  * use A and Y to increment / decrement the constants
     //  * use the arrow keys to navigate the constants
-    if (master.get_digital_new_press(DIGITAL_X))
+    if (master.get_digital_new_press(DIGITAL_L2))     // I chnaged this from X to L2 b/c X is already used
       chassis.pid_tuner_toggle();
 
     // Trigger the selected autonomous routine
