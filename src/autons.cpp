@@ -61,47 +61,35 @@ void drive_example() {
   chassis.odom_pose_set({0_in, 0_in, 0_deg});
   chassis.pid_targets_reset();
 
+  claw.set(true);
+  chassis.pid_wait_quick();
+
+  toggler.move(127); 
+  pros::delay(300);
+  toggler.move(0); 
+
+  cascade1.move(-127);
+  cascade2.move(127);
+  cascade3.move(-127);
+  pros::delay(400);
+  cascade1.move(0);
+  cascade2.move(0);
+  cascade3.move(0);
+
+
+  chassis.pid_odom_set({{{0_in, 15_in}, fwd, 110}}, false);
+  chassis.pid_swing_set(ez::LEFT_SWING, 90_deg, 115, -115);
+  chassis.pid_wait();
+
+
+
+  /** 
   chassis.pid_odom_set({{{0_in, 24_in}, fwd, 127},
                       {{24_in, 24_in}, fwd, 127},
                       {{24_in, 48_in, 0_deg}, fwd, 127}},
                       false);
   chassis.pid_wait();
   
-  /** 
-  
-  chassis.pid_odom_set({{{0_in, 24_in}, fwd, 127},
-                      {{24_in, 24_in}, fwd, 127},
-                      {{24_in, 48_in}, fwd, 127}},
-                      false);
-  chassis.pid_wait();
-  
-
-  /** 
-  chassis.pid_odom_set({{24_in, 24_in, 90_deg}, fwd, 127},
-                       true);
-  chassis.pid_wait();
-  
-  
-  
-  chassis.pid_drive_set(48_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-48_in, DRIVE_SPEED, true);
-  chassis.pid_wait();
-  
-
-   /** 
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(180_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(270_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(360_deg, TURN_SPEED);
-  chassis.pid_wait();
   */
   
 }

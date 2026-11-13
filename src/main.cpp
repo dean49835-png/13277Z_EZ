@@ -60,7 +60,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Drive\n\nDrive forward and come back", drive_example},
+      {"blue 15 sec auton", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
@@ -294,14 +294,14 @@ void opcontrol() {
       claw.set(false); 
     }
 
-    if (master.get_digital(DIGITAL_R1) )
+    if (master.get_digital(DIGITAL_R1) )          //pull up
     {
       cascade1.move(-127);
 
       cascade2.move(127);
       cascade3.move(-127);
     }
-    else if (master.get_digital(DIGITAL_R2))
+    else if (master.get_digital(DIGITAL_R2))        //push down
     {
       cascade1.move(90);
 
