@@ -82,9 +82,9 @@ void drive_example() {    //COLOR 15sec auton
   chassis.pid_odom_set({{{3_in, 16_in}, fwd, 90}}, false);        //speed:90
   chassis.pid_wait();
 
-  cascade1.move(100);
-  cascade2.move(-100);
-  cascade3.move(100);
+  cascade1.move(80);
+  cascade2.move(-80);
+  cascade3.move(80);
   pros::delay(400);           //moving down for 1st cone
   cascade1.move(0);
   cascade2.move(0);
@@ -96,9 +96,9 @@ void drive_example() {    //COLOR 15sec auton
   chassis.pid_targets_reset();
 
   chassis.pid_odom_set({{{0_in, -10_in}, rev, 100}}, false);
-  chassis.pid_wait_quick_chain();
+  chassis.pid_wait();
 
-  chassis.pid_odom_set({{{-15_in, 6_in}, fwd, 60}}, false);  
+  chassis.pid_odom_set({{{-15_in, 6_in}, fwd, 60}}, false);       //60
   pros::delay(1200);
   claw.set(false);      //second grab
   pros::delay(10);
@@ -126,6 +126,7 @@ void drive_example() {    //COLOR 15sec auton
   cascade2.move(0);
   cascade3.move(0);
   claw.set(true);
+  pros::delay(6767);
   chassis.pid_wait();
 
 
@@ -162,13 +163,13 @@ void turn_example() {  //SKILLS
   chassis.pid_odom_set({{{0_in, 16_in}, fwd, 60}}, false);
   chassis.pid_wait();
 
-  chassis.pid_odom_set({{{3_in, 16_in}, fwd, 100}}, false);        //speed:100 NEW!!
+  chassis.pid_odom_set({{{3_in, 16_in}, fwd, 90}}, false);        //speed:90
   chassis.pid_wait();
 
   cascade1.move(80);
   cascade2.move(-80);
   cascade3.move(80);
-  pros::delay(500);           //moving down for 1st cone
+  pros::delay(400);           //moving down for 1st cone
   cascade1.move(0);
   cascade2.move(0);
   cascade3.move(0);
@@ -179,9 +180,9 @@ void turn_example() {  //SKILLS
   chassis.pid_targets_reset();
 
   chassis.pid_odom_set({{{0_in, -10_in}, rev, 100}}, false);
-  chassis.pid_wait_quick_chain();
+  chassis.pid_wait();
 
-  chassis.pid_odom_set({{{-15_in, 6_in}, fwd, 60}}, false);  
+  chassis.pid_odom_set({{{-15_in, 6_in}, fwd, 60}}, false);       //60
   pros::delay(1200);
   claw.set(false);      //second grab
   pros::delay(10);
@@ -209,6 +210,7 @@ void turn_example() {  //SKILLS
   cascade2.move(0);
   cascade3.move(0);
   claw.set(true);
+  pros::delay(6767);
   chassis.pid_wait();
   
   chassis.pid_odom_set({{{-50_in, -6_in}, rev, 100}}, false);
