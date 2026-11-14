@@ -76,7 +76,7 @@ void drive_example() {
   cascade2.move(0);
   cascade3.move(0);
 
-  chassis.pid_odom_set({{{0_in, 16_in}, fwd, 100}}, false);
+  chassis.pid_odom_set({{{0_in, 16_in}, fwd, 60}}, false);
   chassis.pid_wait();
 
   chassis.pid_odom_set({{{3_in, 16_in}, fwd, 100}}, false);
@@ -92,9 +92,11 @@ void drive_example() {
   claw.set(true);
   chassis.pid_wait();
 
-  chassis.pid_odom_set({{{-10_in, 16_in, 100_deg}, rev, 90}}, false);
-  chassis.pid_wait();
+  chassis.odom_pose_set({0_in, 0_in, 0_deg});
+  chassis.pid_targets_reset();
 
+  chassis.pid_odom_set({{{-8_in, 0_in}, rev, 100}}, false);
+  chassis.pid_wait();
   
 
   
@@ -109,8 +111,7 @@ void turn_example() {
   chassis.odom_pose_set({0_in, 0_in, 0_deg});
   chassis.pid_targets_reset();
 
-
-  chassis.pid_odom_set({{{16_in, 16_in}, rev, 100}}, false);
+  chassis.pid_odom_set({{{-30_in, 0_in, 90_deg}, rev, 100}}, false);
   chassis.pid_wait();
 }
 
