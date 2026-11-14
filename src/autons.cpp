@@ -61,37 +61,45 @@ void drive_example() {
   chassis.odom_pose_set({0_in, 0_in, 0_deg});
   chassis.pid_targets_reset();
 
-  claw.set(true);
+  claw.set(false);
   chassis.pid_wait_quick();
 
   toggler.move(127); 
-  pros::delay(300);
+  pros::delay(400);
   toggler.move(0); 
 
   cascade1.move(-127);
   cascade2.move(127);
   cascade3.move(-127);
-  pros::delay(400);
+  pros::delay(500);      // moving up cascade
   cascade1.move(0);
   cascade2.move(0);
   cascade3.move(0);
 
-
-  chassis.pid_odom_set({{{0_in, 15_in}, fwd, 110}}, false);
-  chassis.pid_swing_set(ez::LEFT_SWING, 90_deg, 115, -115);
+  chassis.pid_odom_set({{{0_in, 16_in}, fwd, 100}}, false);
   chassis.pid_wait();
 
-
-
-  /** 
-  chassis.pid_odom_set({{{0_in, 24_in}, fwd, 127},
-                      {{24_in, 24_in}, fwd, 127},
-                      {{24_in, 48_in, 0_deg}, fwd, 127}},
-                      false);
+  chassis.pid_odom_set({{{3_in, 16_in}, fwd, 100}}, false);
   chassis.pid_wait();
+
+  cascade1.move(100);
+  cascade2.move(-100);
+  cascade3.move(100);
+  pros::delay(400);           //moving down for 1st cone
+  cascade1.move(0);
+  cascade2.move(0);
+  cascade3.move(0);
+  claw.set(true);
+  chassis.pid_wait();
+
+  chassis.pid_odom_set({{{-10_in, 16_in, 100_deg}, rev, 90}}, false);
+  chassis.pid_wait();
+
   
-  */
+
   
+
+
 }
 
 ///
@@ -102,17 +110,8 @@ void turn_example() {
   chassis.pid_targets_reset();
 
 
-  chassis.pid_odom_set({{{0_in, 24_in}, fwd, 127},
-                      {{24_in, 24_in}, fwd, 127},
-                      {{24_in, 48_in, 270_deg}, fwd, 127}},
-                      false);
+  chassis.pid_odom_set({{{16_in, 16_in}, rev, 100}}, false);
   chassis.pid_wait();
-/** 
-    chassis.pid_odom_set({{{24_in, 72_in}, fwd, 127},
-                      {{0_in, 72_in}, fwd, 127},
-                      {{-24_in, 48_in, 90_deg}, fwd, 127}},
-                      false);
-                    */
 }
 
 
