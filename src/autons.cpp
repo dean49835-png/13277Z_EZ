@@ -100,14 +100,21 @@ void drive_example() {
 void turn_example() {
   chassis.odom_pose_set({0_in, 0_in, 0_deg});
   chassis.pid_targets_reset();
-  
-  toggler.move(105); 
-  pros::delay(150);
-  toggler.move(0);
 
-  chassis.pid_odom_set({{24_in, 0_in}, fwd, 60});
+
+  chassis.pid_odom_set({{{0_in, 24_in}, fwd, 127},
+                      {{24_in, 24_in}, fwd, 127},
+                      {{24_in, 48_in, 270_deg}, fwd, 127}},
+                      false);
   chassis.pid_wait();
+/** 
+    chassis.pid_odom_set({{{24_in, 72_in}, fwd, 127},
+                      {{0_in, 72_in}, fwd, 127},
+                      {{-24_in, 48_in, 90_deg}, fwd, 127}},
+                      false);
+                    */
 }
+
 
 ///
 // Combining Turn + Drive
