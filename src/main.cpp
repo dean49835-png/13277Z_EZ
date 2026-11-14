@@ -60,9 +60,9 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"blue 15 sec auton", drive_example},
-      {"Odom testing", turn_example},
-      {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
+      {"Skills", turn_example},
+      {"blue, red 15 sec auton", drive_example},
+      {"do nothing", drive_and_turn},
       {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
@@ -281,7 +281,7 @@ void opcontrol() {
       toggler.move(0); 
     }
 
-    if(master.get_digital_new_press(DIGITAL_L1))
+    if(master.get_digital_new_press(DIGITAL_L1) || master.get_digital_new_press(DIGITAL_L2))
     {
       c = !c;
     }
