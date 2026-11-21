@@ -35,15 +35,9 @@ void initialize() {
   
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
 
-  // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
-  //  - change `back` to `front` if the tracking wheel is in front of the midline
-  //  - ignore this if you aren't using a horizontal tracker
+  
   chassis.odom_tracker_back_set(&horiz_tracker);
-  // Look at your vertical tracking wheel and dec ide if it's to the left or right of the center of the robot
-  //  - change `left` to `right` if the tracking wheel is to the right of the centerline
-  //  - ignore this if you aren't using a vertical tracker
   chassis.odom_tracker_right_set(&vert_tracker);
-
   chassis.odom_enable(true);
 
   // Configure your chassis controls
@@ -268,6 +262,8 @@ void opcontrol() {
   
     // Control buttons for our bot
     
+    pros::lcd::print(2, "Cascade Deg: %.2f", cascade1.get_position());
+
     if(master.get_digital_new_press(DIGITAL_X))
     {
       t = !t;
@@ -296,17 +292,32 @@ void opcontrol() {
 
     if (master.get_digital(DIGITAL_R1) )          //pull up
     {
-      cascade1.move(-127);
+      cascade1.move(-127);         //127
+      cascade3.move(127);
 
       cascade2.move(127);
-      cascade3.move(-127);
+
+      if(cascade1.get_position() < -2200)
+      {
+        cascade1.move(0);
+        cascade2.move(0);
+        cascade3.move(0);
+      }
     }
     else if (master.get_digital(DIGITAL_R2))        //push down
     {
-      cascade1.move(90);
+      cascade1.move(90);          //90
+      cascade3.move(-90);
 
-      cascade2.move(-90);
-      cascade3.move(90);
+      cascade2.move(-90
+      );
+
+      if(cascade1.get_position() > 75)
+      {
+        cascade1.move(0);
+        cascade2.move(0);
+        cascade3.move(0);
+      }
     }
     else
     {
