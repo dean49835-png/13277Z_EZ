@@ -54,10 +54,10 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"PID tuning", wait_until_change_speed},
       {"blue, red 15 sec auton", drive_example},
       {"Skills", turn_example},
       {"do nothing", drive_and_turn},
-      {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
       {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
       {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
       {"Combine all 3 movements", combining_movements},
@@ -202,7 +202,7 @@ void ez_template_extras() {
     //  When enabled:
     //  * use A and Y to increment / decrement the constants
     //  * use the arrow keys to navigate the constants
-    if (master.get_digital_new_press(DIGITAL_L2))     // I chnaged this from X to L2 b/c X is already used
+    if (master.get_digital_new_press(DIGITAL_Y))     // I chnaged this from X to Y b/c X is already used
       chassis.pid_tuner_toggle();
 
     // Trigger the selected autonomous routine
@@ -263,7 +263,11 @@ void opcontrol() {
     // Control buttons for our bot
     
     pros::lcd::print(2, "Cascade Deg: %.2f", cascade1.get_position());
+    // Available sizes: pros::E_TEXT_SMALL, pros::E_TEXT_MEDIUM, pros::E_TEXT_LARGE, pros::E_TEXT_MEDIUM_CENTER, pros::E_TEXT_LARGE_CENTER
+    pros::lcd::print(2, "Cascade Deg: %.2f", cascade1.get_position());
+    pros::lcd::print(3, "X: %.2f  Y: %.2f  Theta: %.2f", chassis.odom_x_get(), chassis.odom_y_get(), chassis.odom_theta_get());
 
+    /** 
     if(master.get_digital_new_press(DIGITAL_X))
     {
       t = !t;
@@ -271,6 +275,16 @@ void opcontrol() {
     if(t)
     {
       toggler.move(105); 
+    }
+    else
+    {
+      toggler.move(0); 
+    }
+    */
+
+    if(master.get_digital(DIGITAL_X))
+    {
+      toggler.move(127); 
     }
     else
     {

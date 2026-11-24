@@ -15,7 +15,7 @@ const int SWING_SPEED = 115;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(7, 0.0, 62.0);         //2.7 0 22.0 | 12 0 130 Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(8, 0.0, 62.0);         //7 0 62.0 | 12 0 130 Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
 
   chassis.pid_turn_constants_set(2.7, 0.05, 15.0, 15.0);     //2.7 0.05 15 15 Turn in place constants Kp Ki Kd Kstart
@@ -49,6 +49,13 @@ void default_constants() {
 
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
 }
+
+void wait_until_change_speed() {      //PID tunung
+
+  chassis.pid_drive_set(24_in, 120, true);
+  chassis.pid_wait();
+}
+
 
 ///
 // Drive Example
@@ -249,30 +256,7 @@ void drive_and_turn() { // do nothing
 ///
 // Wait Until and Changing Max Speed
 ///
-void wait_until_change_speed() {
-  // pid_wait_until will wait until the robot gets to a desired position
 
-  // When the robot gets to 6 inches slowly, the robot will travel the remaining distance at full speed
-  chassis.pid_drive_set(24_in, 30, true);
-  chassis.pid_wait_until(6_in);
-  chassis.pid_speed_max_set(DRIVE_SPEED);  // After driving 6 inches at 30 speed, the robot will go the remaining distance at DRIVE_SPEED
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(45_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-45_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  // When the robot gets to -6 inches slowly, the robot will travel the remaining distance at full speed
-  chassis.pid_drive_set(-24_in, 30, true);
-  chassis.pid_wait_until(-6_in);
-  chassis.pid_speed_max_set(DRIVE_SPEED);  // After driving 6 inches at 30 speed, the robot will go the remaining distance at DRIVE_SPEED
-  chassis.pid_wait();
-}
 
 ///
 // Swing Example
