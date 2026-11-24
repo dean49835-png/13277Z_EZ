@@ -73,6 +73,7 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  chassis.odom_theta_set(0_deg);                      //mayber this is sus(i added it b/c theta always gives -0.5)
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -202,7 +203,7 @@ void ez_template_extras() {
     //  When enabled:
     //  * use A and Y to increment / decrement the constants
     //  * use the arrow keys to navigate the constants
-    if (master.get_digital_new_press(DIGITAL_Y))     // I chnaged this from X to Y b/c X is already used
+    if (master.get_digital_new_press(DIGITAL_B))     // I chnaged this from X to Y b/c X is already used
       chassis.pid_tuner_toggle();
 
     // Trigger the selected autonomous routine
@@ -262,10 +263,13 @@ void opcontrol() {
   
     // Control buttons for our bot
     
-    pros::lcd::print(2, "Cascade Deg: %.2f", cascade1.get_position());
+    pros::lcd::print(7, "Cascade Deg: %.2f", cascade1.get_position());
     // Available sizes: pros::E_TEXT_SMALL, pros::E_TEXT_MEDIUM, pros::E_TEXT_LARGE, pros::E_TEXT_MEDIUM_CENTER, pros::E_TEXT_LARGE_CENTER
-    pros::lcd::print(2, "Cascade Deg: %.2f", cascade1.get_position());
-    pros::lcd::print(3, "X: %.2f  Y: %.2f  Theta: %.2f", chassis.odom_x_get(), chassis.odom_y_get(), chassis.odom_theta_get());
+    // Only print Cascade and Odom coordinates when the PID Tuner is NOT open
+    if (!chassis.pid_tuner_enabled()) {
+      pros::lcd::print(2, "Cascade Deg: %.2f", cascade1.get_position());
+      pros::lcd::print(3, "X: %.2f  Y: %.2f  Theta: %.2f", chassis.odom_x_get(), chassis.odom_y_get(), chassis.odom_theta_get());
+    }
 
     /** 
     if(master.get_digital_new_press(DIGITAL_X))
