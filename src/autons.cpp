@@ -15,7 +15,7 @@ const int SWING_SPEED = 115;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(9, 2.0, 70.0, 1.0);         //7 0 62.0 | 12 0 130 Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(9, 2.0, 40.0, 1.0);         //7 0 62.0 | 12 0 130 Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
 
   chassis.pid_turn_constants_set(2.7, 0.05, 15.0, 15.0);     //2.7 0.05 15 15 Turn in place constants Kp Ki Kd Kstart

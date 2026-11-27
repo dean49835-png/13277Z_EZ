@@ -12,7 +12,7 @@ ez::Drive chassis(
     {12, 13},  // Right Chassis Ports (negative port will reverse it!)
 
     20,      // IMU Port
-    3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
+    3.25,  // Wheel Diameter 
     450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
@@ -20,8 +20,8 @@ ez::Drive chassis(
 //  - you should get positive values on the encoders going FORWARD and RIGHT
 // - `2.0` is the wheel diameter
 // - `4.0` is the distance from the center of the wheel to the center of the robot
-ez::tracking_wheel horiz_tracker(-14, 2.0, -4.05);  // This tracking wheel is perpendicular to the drive wheels
-ez::tracking_wheel vert_tracker(15, 2.0, 0.0);   // This tracking wheel is parallel to the drive wheels
+ez::tracking_wheel horiz_tracker(-14, 2.0, -4.44);  // This tracking wheel is perpendicular to the drive wheels
+ez::tracking_wheel vert_tracker(15, 2.0, 0.02);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -116,6 +116,9 @@ void autonomous() {
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
+  cascade1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  cascade2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  cascade3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 
   /*
@@ -244,6 +247,9 @@ bool c = false;
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  cascade1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  cascade2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  cascade3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   while (true) {
     // Gives you some extras to make EZ-Template ezier
@@ -267,11 +273,9 @@ void opcontrol() {
     // Available sizes: pros::E_TEXT_SMALL, pros::E_TEXT_MEDIUM, pros::E_TEXT_LARGE, pros::E_TEXT_MEDIUM_CENTER, pros::E_TEXT_LARGE_CENTER
     // Only print Cascade and Odom coordinates when the PID Tuner is NOT open
     if (!chassis.pid_tuner_enabled()) {
-      pros::lcd::print(2, "Cascade Deg: %.2f", cascade1.get_position());
-      pros::lcd::print(3, "X: %.2f  Y: %.2f  Theta: %.2f", chassis.odom_x_get(), chassis.odom_y_get(), chassis.odom_theta_get());
+      pros::lcd::print(6, "X: %.2f  Y: %.2f  Theta: %.2f", chassis.odom_x_get(), chassis.odom_y_get(), chassis.odom_theta_get());
     }
 
-    /** 
     if(master.get_digital_new_press(DIGITAL_X))
     {
       t = !t;
@@ -279,16 +283,6 @@ void opcontrol() {
     if(t)
     {
       toggler.move(105); 
-    }
-    else
-    {
-      toggler.move(0); 
-    }
-    */
-
-    if(master.get_digital(DIGITAL_X))
-    {
-      toggler.move(127); 
     }
     else
     {
@@ -315,11 +309,11 @@ void opcontrol() {
 
       cascade2.move(127);
 
-      if(cascade1.get_position() < -2200)
+      if(cascade1.get_position() < -2710)
       {
-        cascade1.move(0);
-        cascade2.move(0);
-        cascade3.move(0);
+        cascade1.brake();
+        cascade2.brake();
+        cascade3.brake();
       }
     }
     else if (master.get_digital(DIGITAL_R2))        //push down
@@ -327,21 +321,22 @@ void opcontrol() {
       cascade1.move(90);          //90
       cascade3.move(-90);
 
-      cascade2.move(-90
-      );
+      cascade2.move(-90);
 
-      if(cascade1.get_position() > 75)
+       
+      if(cascade1.get_position() > 0)
       {
-        cascade1.move(0);
-        cascade2.move(0);
-        cascade3.move(0);
+        cascade1.brake();
+        cascade2.brake();
+        cascade3.brake();
       }
+      
     }
     else
     {
-      cascade1.move(0);
-      cascade2.move(0);
-      cascade3.move(0);
+      cascade1.brake();
+      cascade2.brake();
+      cascade3.brake();
     }
 
   } 
