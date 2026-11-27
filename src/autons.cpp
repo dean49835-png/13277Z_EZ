@@ -10,13 +10,15 @@ const int DRIVE_SPEED = 115;
 const int TURN_SPEED = 110;
 const int SWING_SPEED = 115;
 
+const int ds = 95;
+
 ///
 // Constants
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(9, 2.0, 40.0, 1.0);         //7 0 62.0 | 12 0 130 Fwd/rev constants, used for odom and non odom motions
-  chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
+  chassis.pid_drive_constants_set(8.0, 0, 15, 0);     //Kp Ki Kd Kistart  //8 0 15.0 | 12 0 130 Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_heading_constants_set(5, 0.0, 12);        // 5 0 12 Holds the robot straight while going forward without odom
 
   chassis.pid_turn_constants_set(2.7, 0.05, 15.0, 15.0);     //2.7 0.05 15 15 Turn in place constants Kp Ki Kd Kstart
   chassis.pid_swing_constants_set(9.0, 0.0, 80.0);           //9 0 80 Swing constants
@@ -27,7 +29,8 @@ void default_constants() {
   // Exit conditions
   chassis.pid_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
   chassis.pid_swing_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 500_ms);
-  chassis.pid_drive_exit_condition_set(90_ms, 1_in, 250_ms, 3_in, 500_ms, 500_ms);
+  chassis.pid_drive_exit_condition_set(90_ms, 0.5_in, 250_ms, 3_in, 500_ms, 500_ms);
+
   chassis.pid_odom_turn_exit_condition_set(90_ms, 3_deg, 250_ms, 7_deg, 500_ms, 750_ms);
   chassis.pid_odom_drive_exit_condition_set(90_ms, 0.5_in, 250_ms, 3_in, 500_ms, 750_ms);
   chassis.pid_turn_chain_constant_set(3_deg);
@@ -52,7 +55,7 @@ void default_constants() {
 
 void wait_until_change_speed() {      //PID tunung
 
-  chassis.pid_drive_set(32_in, 120, true);
+  chassis.pid_drive_set(32_in, ds, false);
   chassis.pid_wait();
 }
 
@@ -67,6 +70,7 @@ void drive_example() {    //COLOR 15sec auton
   // for slew, only enable it when the drive distance is greater than the slew distance + a few inches
   chassis.odom_pose_set({0_in, 0_in, 0_deg});
   chassis.pid_targets_reset();
+
 
   claw.set(false);
   chassis.pid_wait_quick_chain();

@@ -73,7 +73,7 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
-  chassis.odom_theta_set(0_deg);                      //mayber this is sus(i added it b/c theta always gives -0.5)
+  chassis.odom_theta_set(0_deg);  
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
